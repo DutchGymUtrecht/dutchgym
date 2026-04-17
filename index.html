@@ -1,0 +1,868 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Protocol Rondleiding - Dutch Gym Vredenburg</title>
+  <style>
+    @font-face {
+      font-family: "Legend";
+      src: url("./legend-font/Legend Bold.otf") format("opentype");
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      --bg: #050505;
+      --bg-soft: #0b0b0b;
+      --card: #111111;
+      --line: #272727;
+      --text: #f5f5f5;
+      --muted: #b6b6b6;
+      --accent: #ffcc00;
+      --accent-strong: #ffd84d;
+      --danger: #ff5a5f;
+      --radius: 14px;
+      --shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(circle at top right, #1a1a1a 0%, var(--bg) 45%);
+      color: var(--text);
+      font-family: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+    }
+
+    .container {
+      width: min(1100px, 92vw);
+      margin: 44px auto 72px;
+    }
+
+    .hero {
+      position: relative;
+      background: linear-gradient(140deg, #111111 0%, #080808 70%);
+      border: 1px solid #282828;
+      border-radius: 20px;
+      padding: 50px;
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -60px -60px auto;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, rgba(255, 204, 0, 0.24), transparent 68%);
+    }
+
+    .kicker {
+      display: inline-block;
+      padding: 6px 12px;
+      border: 1px solid rgba(255, 204, 0, 0.38);
+      border-radius: 999px;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(30px, 5vw, 50px);
+      line-height: 1.1;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-family: "Legend", sans-serif;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      margin-top: 18px;
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.65;
+    }
+
+    .meta {
+      margin-top: 26px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .pill {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--line);
+      color: #e6e6e6;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 13px;
+    }
+
+    .actions {
+      margin-top: 26px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      appearance: none;
+      border: 0;
+      border-radius: 10px;
+      padding: 11px 16px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #111;
+    }
+
+    .btn-secondary {
+      background: #111;
+      color: var(--text);
+      border: 1px solid #414141;
+    }
+
+    .grid {
+      margin-top: 34px;
+      display: grid;
+      gap: 24px;
+      grid-template-columns: repeat(12, 1fr);
+    }
+
+    .card {
+      background: linear-gradient(180deg, #131313 0%, #101010 100%);
+      border: 1px solid #272727;
+      border-radius: var(--radius);
+      padding: 26px;
+    }
+
+    .card h2, .card h3 {
+      margin-top: 0;
+      margin-bottom: 14px;
+      letter-spacing: 0.1em;
+      line-height: 1.28;
+    }
+
+    .card p {
+      margin-top: 0;
+      margin-bottom: 12px;
+      color: #e2e2e2;
+      line-height: 1.65;
+    }
+
+    .toc {
+      grid-column: span 4;
+    }
+
+    .purpose {
+      grid-column: span 8;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    .two {
+      grid-column: span 6;
+    }
+
+    ul {
+      margin: 14px 0 0;
+      padding-left: 20px;
+      color: #e2e2e2;
+    }
+
+    li {
+      margin: 10px 0;
+      line-height: 1.55;
+    }
+
+    .step {
+      border-left: 3px solid var(--accent);
+      padding-left: 14px;
+      margin: 18px 0;
+    }
+
+    .label {
+      color: var(--accent);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .quote {
+      margin-top: 16px;
+      background: #0d0d0d;
+      border: 1px solid #2f2f2f;
+      border-radius: 10px;
+      padding: 16px 18px;
+      color: #ededed;
+      font-style: italic;
+      line-height: 1.65;
+    }
+
+    .highlight {
+      background: rgba(255, 204, 0, 0.1);
+      border: 1px solid rgba(255, 204, 0, 0.35);
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin-top: 16px;
+      line-height: 1.6;
+    }
+
+    .warning {
+      background: rgba(255, 90, 95, 0.08);
+      border: 1px solid rgba(255, 90, 95, 0.4);
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin-top: 16px;
+      line-height: 1.6;
+    }
+
+    .checklist {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .check-item {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 12px 14px;
+      background: #0d0d0d;
+      border: 1px solid #2e2e2e;
+      border-radius: 10px;
+      color: #efefef;
+      font-size: 14px;
+      line-height: 1.45;
+      cursor: pointer;
+    }
+
+    .check-item input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .box {
+      min-width: 16px;
+      width: 16px;
+      height: 16px;
+      border: 2px solid #667087;
+      border-radius: 4px;
+      margin-top: 1px;
+      transition: all 160ms ease;
+    }
+
+    .check-item input:checked + .box {
+      border-color: var(--accent);
+      background: var(--accent);
+      box-shadow: 0 0 0 2px rgba(255, 204, 0, 0.2);
+    }
+
+    .check-item input:checked + .box::after {
+      content: "";
+      display: block;
+      width: 5px;
+      height: 9px;
+      border: solid #111;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+      margin: 1px auto 0;
+    }
+
+    .small {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .hero-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .logo-wrap {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 18px;
+      border: 1px solid rgba(255, 204, 0, 0.45);
+      border-radius: 14px;
+      background: linear-gradient(180deg, rgba(255, 204, 0, 0.12), rgba(0, 0, 0, 0.35));
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    .logo {
+      height: 56px;
+      width: auto;
+      display: block;
+      filter: saturate(1.05);
+    }
+
+    .logo-print {
+      display: none;
+    }
+
+    .logo-fallback {
+      display: none;
+      color: #fff;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      font-size: 18px;
+    }
+
+    .toc a {
+      color: #f0f0f0;
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 160ms ease, color 160ms ease;
+    }
+
+    .toc a:hover {
+      color: #fff;
+      border-bottom-color: rgba(255, 204, 0, 0.9);
+    }
+
+    h2, h3 {
+      font-family: "Legend", sans-serif;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .focus-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .focus-card {
+      background: linear-gradient(180deg, rgba(255, 204, 0, 0.12), rgba(255, 204, 0, 0.04));
+      border: 1px solid rgba(255, 204, 0, 0.45);
+      border-radius: 11px;
+      padding: 14px;
+    }
+
+    .focus-nr {
+      display: inline-flex;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      align-items: center;
+      justify-content: center;
+      background: var(--accent);
+      color: #111;
+      font-weight: 800;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .focus-title {
+      font-size: 15px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .focus-text {
+      font-size: 14px;
+      color: #ececec;
+      line-height: 1.5;
+    }
+
+    .cta-strip {
+      margin-top: 16px;
+      border-left: 4px solid var(--accent);
+      background: #0c0c0c;
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-weight: 700;
+      line-height: 1.5;
+    }
+
+    .objections {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .objection-item {
+      border: 1px solid #2b2b2b;
+      background: linear-gradient(180deg, #131313, #0f0f0f);
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .objection-q {
+      color: var(--accent);
+      font-weight: 800;
+      font-size: 13px;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .objection-a {
+      font-size: 14px;
+      color: #e8e8e8;
+      line-height: 1.5;
+    }
+
+    footer {
+      margin-top: 34px;
+      border-top: 1px solid #262d3a;
+      padding-top: 18px;
+      color: var(--muted);
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 900px) {
+      .toc, .purpose, .two {
+        grid-column: 1 / -1;
+      }
+      .hero {
+        padding: 32px 24px;
+      }
+      .checklist {
+        grid-template-columns: 1fr;
+      }
+      .focus-grid, .objections {
+        grid-template-columns: 1fr;
+      }
+      .hero-top {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+      .logo {
+        height: 44px;
+      }
+    }
+
+    @media print {
+      @page {
+        size: A4;
+        margin: 12mm;
+      }
+      :root {
+        --bg: #fff;
+        --text: #111;
+        --muted: #444;
+        --card: #fff;
+        --line: #ddd;
+      }
+      html, body {
+        background: #fff;
+        color: #111 !important;
+        font-size: 9.8pt;
+        line-height: 1.28;
+      }
+      .container {
+        width: 100%;
+        margin: 0;
+      }
+      .grid {
+        margin-top: 8px;
+        gap: 8px;
+      }
+      .card {
+        padding: 10px;
+        border-radius: 6px;
+      }
+      .card h2, .card h3 {
+        margin-bottom: 6px;
+        letter-spacing: 0.05em;
+        line-height: 1.16;
+        font-size: 11pt;
+      }
+      h1 {
+        font-size: 18pt;
+        letter-spacing: 0.04em;
+        line-height: 1.05;
+      }
+      .subtitle {
+        font-size: 9pt;
+        line-height: 1.22;
+        margin-top: 5px;
+      }
+      .hero {
+        padding: 10px;
+        border-radius: 7px;
+      }
+      .hero-top {
+        margin-bottom: 6px;
+      }
+      .logo {
+        height: 24px;
+      }
+      .logo-wrap {
+        padding: 4px 6px;
+        border-radius: 6px;
+        border-color: #111;
+        background: #fff;
+        box-shadow: none;
+      }
+      .kicker {
+        font-size: 7pt;
+        padding: 2px 6px;
+        margin-bottom: 4px;
+      }
+      .meta {
+        margin-top: 6px;
+        gap: 4px;
+      }
+      .pill {
+        padding: 2px 6px;
+        font-size: 7pt;
+      }
+      ul {
+        margin-top: 4px;
+      }
+      li {
+        margin: 2px 0;
+        line-height: 1.2;
+      }
+      .step {
+        margin: 5px 0;
+        padding-left: 8px;
+      }
+      .quote, .highlight, .warning, .check-item, .focus-card, .objection-item, .cta-strip {
+        padding: 6px 8px;
+        border-radius: 6px;
+        margin-top: 4px;
+        line-height: 1.2;
+      }
+      .focus-grid, .objections, .checklist {
+        gap: 4px;
+        margin-top: 4px;
+      }
+      .focus-nr {
+        width: 14px;
+        height: 14px;
+        font-size: 7px;
+        margin-bottom: 2px;
+      }
+      .focus-title, .objection-q {
+        font-size: 8.4pt;
+      }
+      .focus-text, .objection-a, .check-item, .small {
+        font-size: 7.8pt;
+      }
+      footer {
+        margin-top: 6px;
+        padding-top: 5px;
+        font-size: 7pt;
+      }
+      .subtitle, .small, .pill, .card p, li, .focus-text, .objection-a, .check-item, footer span, .toc a {
+        color: #111 !important;
+      }
+      .label, .objection-q, .kicker {
+        color: #000 !important;
+      }
+      .logo-screen {
+        display: none !important;
+      }
+      .logo-print {
+        display: block !important;
+      }
+      .toc, .purpose, .two, .full {
+        grid-column: 1 / -1 !important;
+      }
+      .card, .hero {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+      .btn, .actions {
+        display: none !important;
+      }
+      .hero, .card {
+        box-shadow: none;
+        background: #fff;
+        border: 1px solid #ddd;
+      }
+      .quote, .highlight, .warning, .check-item {
+        background: #fff;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <section class="hero">
+      <div class="hero-top">
+        <span class="kicker">Dutch Gym Vredenburg</span>
+        <div class="logo-wrap">
+          <img class="logo logo-screen" src="./DG_header_logo.svg" alt="Dutch Gym logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';" />
+          <img class="logo logo-print" src="./DG-logo-black.png" alt="Dutch Gym zwart logo" />
+          <span class="logo-fallback">DUTCH GYM</span>
+        </div>
+      </div>
+      <h1>Protocol Rondleiding</h1>
+      <p class="subtitle">
+        Praktisch en commercieel protocol voor consistente rondleidingen, in de tone of voice van Dutch Gym:
+        premium, persoonlijk, resultaatgericht.
+      </p>
+      <div class="meta">
+        <span class="pill">Versie 1.0</span>
+        <span class="pill">Doelgroep: Allround medewerkers</span>
+        <span class="pill">Duur rondleiding: 15-25 min</span>
+      </div>
+      <div class="actions">
+        <button class="btn btn-primary" onclick="window.print()">Print / Exporteer naar PDF</button>
+        <button class="btn btn-secondary" onclick="window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'})">Naar checklist</button>
+      </div>
+    </section>
+
+    <section class="grid">
+      <article class="card toc">
+        <h2>Inhoud</h2>
+        <ul>
+          <li><a href="#doel">1. Doel van de rondleiding</a></li>
+          <li><a href="#stijl">2. Service- en communicatiestijl</a></li>
+          <li><a href="#proces">3. Ontvangst en intake (Zone 1)</a></li>
+          <li><a href="#ruimte">4. Rondleiding zones 2 t/m 10</a></li>
+          <li><a href="#premium">5. Premium pitch</a></li>
+          <li><a href="#afsluiting">6. Vervolgactie en afsluiting</a></li>
+          <li><a href="#scripts">7. Voorbeeldscripts</a></li>
+          <li><a href="#checklist">8. Team checklist</a></li>
+        </ul>
+      </article>
+
+      <article class="card purpose" id="doel">
+        <h2>1) Doel van de rondleiding</h2>
+        <div class="step">
+          <div class="label">Beleving</div>
+          De bezoeker voelt direct de kwaliteit, energie en community van Dutch Gym.
+        </div>
+        <div class="step">
+          <div class="label">Personalisatie</div>
+          De rondleiding sluit aan op het persoonlijke doel van de bezoeker.
+        </div>
+        <div class="step">
+          <div class="label">Conversie</div>
+          Elke rondleiding eindigt met een concrete vervolgstap: proeftraining, afspraak of inschrijving.
+        </div>
+        <div class="highlight">
+          Leid de potentiële klant op een rustige en persoonlijke manier rond en leg de nadruk op
+          waar de interesses liggen, zoals groepslessen of krachttraining.
+        </div>
+      </article>
+
+      <article class="card full" id="stijl">
+        <h2>2) Dutch Gym service- en communicatiestijl</h2>
+        <ul>
+          <li><strong>Houding:</strong> gastvrij, energiek, professioneel en oprecht.</li>
+          <li><strong>Taal:</strong> spreek in voordelen en resultaat, niet alleen in faciliteiten.</li>
+          <li><strong>Aanpak:</strong> eerst behoefte bepalen, dan passend rondleiden, daarna pas lidmaatschap of proeftraining bespreken.</li>
+          <li><strong>Afsluiting:</strong> altijd een concrete vervolgvraag stellen.</li>
+        </ul>
+      </article>
+
+      <article class="card two" id="proces">
+        <h2>3) Zone 1 - Chill Zone ontvangst</h2>
+        <ul>
+          <li>Neem vriendelijk op via intercom en laat nieuwe leden of potentiële leden binnen.</li>
+          <li>Geef een hand, stel jezelf netjes voor en indien ze een afspraak hebben, zorg je ervoor dat je de naam van de persoon weet.</li>
+          <li>Dit is het eerste contactmoment: in de Chill Zone stel je direct de intakevragen.</li>
+          <li>Benadruk in de Chill Zone koffie, thee, sportdranken en de protein vending machine.</li>
+          <li>Start hier de route en ga via de trap door naar de volgende zones.</li>
+        </ul>
+        <div class="quote">
+          "Welkom bij Dutch Gym Vredenburg. Mijn naam is [Naam], ik neem je vandaag mee door de club."
+        </div>
+      </article>
+
+      <article class="card two">
+        <h2>Intakevragen in de Chill Zone</h2>
+        <p>Stel tijdens het eerste contact in Zone 1 altijd deze 3 vragen:</p>
+        <ul>
+          <li>“Wat brengt jou hier?” – kom erachter waarom ze misschien bij onze gym willen sporten.</li>
+          <li>“Wat zoek jij in een gym?” – kom erachter of ze bijvoorbeeld groepslessen willen doen of krachttraining.</li>
+          <li>“Hoe ben je bij DG terechtgekomen?” – belangrijk voor onze marketing.</li>
+        </ul>
+        <div class="highlight">Doel: motivatie, trainingsbehoefte en marketingherkomst direct helder maken.</div>
+      </article>
+
+      <article class="card full" id="ruimte">
+        <h2>4) Rondleiding door de club (Zones 2 t/m 10)</h2>
+        <div class="step">
+          <div class="label">Zone 2 - Small Group Trainings Zone</div>
+          Deze ruimte is bedoeld voor de groepslessen die worden verzorgd door de coaches van Dutch Gym.
+          Het gaat om kleinschalige groepslessen, zodat er voldoende persoonlijke aandacht is voor iedere deelnemer.
+          Binnen deze setting worden onder andere lessen aangeboden zoals Hyrox, MetCon, Powerbuilding en Booty 2 Build.
+        </div>
+        <div class="step">
+          <div class="label">Zone 3 - Plate Loaded Zone</div>
+          Benoem het brede aanbod aan plate loaded apparatuur, waaronder onder andere squatrekken,
+          bench presses en smith machines.
+        </div>
+        <div class="step">
+          <div class="label">Zone 4 - Dumbbells Zone</div>
+          Benoem dat onze dumbbells oplopen tot 60 kilo en dat van elk gewicht drie exemplaren beschikbaar zijn.
+          Laat zien waar de fietsenstalling zit.
+        </div>
+        <div class="step">
+          <div class="label">Zone 5 - Pinloaded Machines Zone</div>
+          Benoem het brede aanbod aan pinloaded machines, waarbij je de nadruk legt op het gebruiksgemak.
+        </div>
+        <div class="step">
+          <div class="label">Zone 6 - Cardio Zone</div>
+          Loop langs de cardio zone en benoem de verschillende cardio machines.
+          Geef bij interesse meer informatie over de extra unieke functionaliteiten van de machines, die je niet in andere gyms vindt.
+          <br /><strong>SpeedSync</strong>: de loopband past automatisch de snelheid aan jouw tempo aan.
+          <br /><strong>Mirroring</strong>: je spiegelt je telefoon of tablet naar het scherm van het apparaat.
+        </div>
+        <div class="step">
+          <div class="label">Zone 7 - Woman's Zone</div>
+          Deze ruimte is exclusief voor vrouwen en is ingericht met apparatuur die met name gericht is op het trainen
+          van de glutes. Dezelfde apparaten zijn ook beschikbaar in de algemene fitnessruimte en kunnen uiteraard door
+          iedereen gebruikt worden. Deze aparte ruimte is bedoeld om vrouwen een comfortabele en veilige omgeving te
+          bieden om te trainen.
+        </div>
+        <div class="step">
+          <div class="label">Zone 8 - Stretch Zone</div>
+          Benoem de voordelen van het stretchen na de workout (bijdragen aan een sneller herstel, het verminderen van
+          spierpijn en het verbeteren van flexibiliteit en mobiliteit) en dat dit de ingang betreft van de wellness street.
+          Benoem de functionaliteit van de collageenruimte. Met behulp van RLT (red light therapy) wordt huidherstel
+          ondersteund, de collageenaanmaak gestimuleerd en ontspanning bevorderd.
+        </div>
+        <div class="step">
+          <div class="label">Zone 9 - Dry Wellness Zone</div>
+          Benoem dat dit gedeelte van de wellness speciaal is ingericht voor leden die willen genieten van een short stay.
+          Hier vind je een uitgebreid assortiment aan massageapparatuur, waaronder hydromassage, hot &amp; cold therapy en
+          relaxmassage. De behandelingen zijn laagdrempelig: je kunt eenvoudig gebruikmaken van de apparaten terwijl je
+          je sportkleding aanhoudt en op een handdoek ligt.
+        </div>
+        <div class="step">
+          <div class="label">Zone 10 - Wet Wellness Zone</div>
+          Loop langs de kleedruimtes, toiletten, douches en de natte wellness. In dit gedeelte vind je onder andere
+          een hammam stoomsauna, een infraroodsauna, een ijsbad en een ijsbucket.
+        </div>
+        <div class="warning">
+          De wellness is gemengd en badkleding is verplicht. De saunafaciliteiten zijn beschikbaar tijdens de
+          bemande uren van 08:00 tot 22:00.
+        </div>
+      </article>
+
+      <article class="card full" id="premium">
+        <h2>5) Premium voordelen actief benoemen</h2>
+        <p>
+          Benadruk de voordelen van het premium abonnement. Standaard heb je enkel fitness en bij premium
+          de volgende voordelen (voor drie euro per vier weken extra):
+        </p>
+        <ul>
+          <li>Onbeperkt gebruik van de saunas, collageenbank, het ijsbad en alle massageapparatuur.</li>
+          <li>Onbeperkt gebruik van onze andere Dutch Gyms in Oost en West.</li>
+          <li>De mogelijkheid om vier keer per maand een Buddy mee te nemen. Dit dient telkens een ander persoon te zijn.</li>
+          <li>Ruime aanbod aan groepslessen bij Dutch Gyms Oost en West. Je kan maximaal voor drie lessen tegelijkertijd ingeschreven staan. Bij locatie Vredenburg zijn de groepslessen nog in opkomst, maar zal in eerste instantie Small Group Trainings worden gegeven.</li>
+          <li>Mogelijkheid tot een coachingsgesprek met het maken van een fitness schema en de mogelijkheid tot een adviesgesprek met de fysio (15 minuten).</li>
+        </ul>
+      </article>
+
+      <article class="card full" id="afsluiting">
+        <h2>6) Vervolgactie in de lounge</h2>
+        <div class="focus-grid">
+          <div class="focus-card">
+            <div class="focus-nr">1</div>
+            <div class="focus-title">Direct vragen</div>
+            <div class="focus-text">
+              Vraag altijd of het potentiële lid vandaag meteen wil proeftrainen.
+            </div>
+          </div>
+          <div class="focus-card">
+            <div class="focus-nr">2</div>
+            <div class="focus-title">Ja = actie</div>
+            <div class="focus-text">
+              Zo ja: laat het potentiële lid zich via de tablet aanmelden en check direct in.
+              Bij interesse kan je ook nog een proefgroepsles inplannen.
+            </div>
+          </div>
+          <div class="focus-card">
+            <div class="focus-nr">3</div>
+            <div class="focus-title">Kansen benutten</div>
+            <div class="focus-text">
+              Benadruk lopende acties of aanbiedingen en benoem dat wij abonnementen van
+              andere sportscholen kosteloos kunnen overnemen, als dat relevant is.
+            </div>
+          </div>
+        </div>
+        <div class="cta-strip">
+          Probeer het potentiële lid te binden aan onze gym. Wil de persoon zich direct aanmelden?
+          Bied dan een drankje aan tijdens de aanmelding.
+        </div>
+      </article>
+
+      <article class="card full" id="scripts">
+        <h2>7) Voorbeeldscripts (direct te gebruiken)</h2>
+        <h3>Voorbeeldtekst coaching</h3>
+        <div class="quote">
+          "Weet dat je, ongeacht welk lidmaatschap je kiest, altijd recht hebt op coaching.
+          Je start met een intake bij een coach die een persoonlijk trainingsschema maakt.
+          Daarna kun je twee of drie vervolgsessies inboeken waarin alle oefeningen uitgebreid
+          met je worden doorgenomen. Zo train je verantwoord en effectief."
+        </div>
+      </article>
+
+      <article class="card full">
+        <h3>Voorbeeldtekst Small Group Training</h3>
+        <div class="quote">
+          "Hier worden Small Group Trainingen gegeven, dat is een trainingsvorm in een kleine groep
+          van ongeveer 10 personen onder begeleiding van een fitnesstrainer. Omdat de groep klein
+          is, kunnen onze trainers je nog meer aandacht, begeleiding en extra motivatie geven.
+          De groepslessen komen twee weken van tevoren in ons groepslesrooster en kun je je direct
+          inschrijven. Tot vier uur van tevoren kun je je dan ook uitschrijven. Let erop: als je
+          niet komt, maar wel een plekje gereserveerd hebt, volgt er een boete van 10 euro."
+        </div>
+      </article>
+
+      <article class="card full" id="checklist">
+        <h2>8) Team checklist (na elke rondleiding)</h2>
+        <div class="checklist">
+          <label class="check-item"><input type="checkbox" /><span class="box"></span><span>Intercom-ontvangst gedaan en bezoeker vriendelijk binnen gelaten.</span></label>
+          <label class="check-item"><input type="checkbox" /><span class="box"></span><span>Voorstellen + naamcheck uitgevoerd.</span></label>
+          <label class="check-item"><input type="checkbox" /><span class="box"></span><span>Drie intakevragen gesteld.</span></label>
+          <label class="check-item"><input type="checkbox" /><span class="box"></span><span>Zones 2 t/m 10 volledig of doelgericht doorlopen.</span></label>
+          <label class="check-item"><input type="checkbox" /><span class="box"></span><span>Woman's zone, stretch/collageen en dry/wet wellness correct toegelicht.</span></label>
+          <label class="check-item"><input type="checkbox" /><span class="box"></span><span>Premium voordelen inclusief buddy, clubs en coaching benoemd.</span></label>
+          <label class="check-item"><input type="checkbox" /><span class="box"></span><span>Proeftraining/proefles gepland of direct ingeschreven.</span></label>
+          <label class="check-item"><input type="checkbox" /><span class="box"></span><span>Acties en kosteloze overstapservice benoemd, positief afgesloten in lounge.</span></label>
+        </div>
+      </article>
+    </section>
+
+    <footer>
+      <span>Dutch Gym Vredenburg - Protocol Rondleiding</span>
+      <span>Interne versie - geschikt voor print en PDF</span>
+    </footer>
+  </main>
+</body>
+</html>
