@@ -139,6 +139,44 @@
       border: 1px solid #414141;
     }
 
+    .edit-toggle {
+      position: fixed;
+      right: 14px;
+      bottom: 14px;
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      border: 1px solid #3a3a3a;
+      background: rgba(12, 12, 12, 0.74);
+      color: #cdcdcd;
+      font-size: 16px;
+      line-height: 1;
+      cursor: pointer;
+      z-index: 1000;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.45;
+      transition: opacity 160ms ease, border-color 160ms ease, color 160ms ease;
+    }
+
+    .edit-toggle:hover {
+      opacity: 0.95;
+      border-color: #5a5a5a;
+      color: #fff;
+    }
+
+    .edit-toggle.is-unlocked {
+      opacity: 0.95;
+      border-color: rgba(255, 204, 0, 0.7);
+      color: var(--accent);
+    }
+
+    .editing-active [contenteditable="true"]:focus {
+      outline: 2px dashed rgba(255, 204, 0, 0.75);
+      outline-offset: 2px;
+    }
+
     .grid {
       margin-top: 34px;
       display: grid;
@@ -604,6 +642,9 @@
       .btn, .actions {
         display: none !important;
       }
+      .edit-toggle {
+        display: none !important;
+      }
       .hero, .card {
         box-shadow: none;
         background: #fff;
@@ -864,5 +905,49 @@
       <span>Interne versie - geschikt voor print en PDF</span>
     </footer>
   </main>
+
+  <button class="edit-toggle" id="editToggle" type="button" aria-label="Bewerken vergrendeld">
+    🔒
+  </button>
+
+  <script>
+    (function () {
+      var EDIT_PASSWORD = "dutchgym";
+      var editableSelectors = "h1, h2, h3, p, li, .quote, .highlight, .warning, .focus-title, .focus-text, .objection-q, .objection-a, .cta-strip, .label, .small, .pill, .kicker, footer span";
+      var editableNodes = Array.from(document.querySelectorAll(editableSelectors));
+      var button = document.getElementById("editToggle");
+      var unlocked = false;
+
+      function setEditingState(isEditing) {
+        unlocked = isEditing;
+        document.body.classList.toggle("editing-active", isEditing);
+        editableNodes.forEach(function (node) {
+          node.setAttribute("contenteditable", isEditing ? "true" : "false");
+        });
+        button.classList.toggle("is-unlocked", isEditing);
+        button.textContent = isEditing ? "🔓" : "🔒";
+        button.setAttribute("aria-label", isEditing ? "Bewerken ontgrendeld" : "Bewerken vergrendeld");
+        button.title = isEditing ? "Bewerkmodus actief" : "Bewerkmodus vergrendeld";
+      }
+
+      button.addEventListener("click", function () {
+        if (unlocked) {
+          setEditingState(false);
+          return;
+        }
+        var typed = window.prompt("Voer wachtwoord in om te bewerken:");
+        if (typed === null) {
+          return;
+        }
+        if (typed === EDIT_PASSWORD) {
+          setEditingState(true);
+        } else {
+          window.alert("Onjuist wachtwoord.");
+        }
+      });
+
+      setEditingState(false);
+    })();
+  </script>
 </body>
 </html>
