@@ -913,8 +913,22 @@
   <script>
     (function () {
       var EDIT_PASSWORD = "dutchgym";
-      var editableSelectors = "h1, h2, h3, p, li, .quote, .highlight, .warning, .focus-title, .focus-text, .objection-q, .objection-a, .cta-strip, .label, .small, .pill, .kicker, footer span";
-      var editableNodes = Array.from(document.querySelectorAll(editableSelectors));
+      function collectEditableNodes() {
+        var blockedTags = new Set(["SCRIPT", "STYLE", "BUTTON", "INPUT", "IMG", "MAIN", "SECTION", "ARTICLE", "UL", "OL"]);
+        return Array.from(document.querySelectorAll("main *")).filter(function (node) {
+          if (blockedTags.has(node.tagName)) {
+            return false;
+          }
+          if (node.classList.contains("box")) {
+            return false;
+          }
+          return Array.from(node.childNodes).some(function (child) {
+            return child.nodeType === Node.TEXT_NODE && child.textContent && child.textContent.trim().length > 0;
+          });
+        });
+      }
+
+      var editableNodes = collectEditableNodes();
       var button = document.getElementById("editToggle");
       var unlocked = false;
 
